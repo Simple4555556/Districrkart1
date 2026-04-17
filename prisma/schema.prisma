@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String?
+  email         String        @unique
+  emailVerified DateTime?
+  password      String?
+  phone         String?
+  image         String?
+  role          String        @default("USER")
+  isActive      Boolean       @default(true)
+  loginAttempts Int           @default(0)
+  lockedUntil   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  cartItems     CartItem[]
+  orders        Order[]       @relation("UserOrders")
+  shop          Shop?         @relation("ShopToVendor")
+  reviews       Review[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Shop {
+  id              String        @id @default(cuid())
+  name            String
+  description     String?
+  logoUrl         String?
+  bannerUrl       String?
+  status          String        @default("PENDING")
+  rejectionReason String?
+  isActive        Boolean       @default(false)
+  location        String        @default("Nawabganj")
+  // Social & contact
+  whatsapp        String?
+  instagram       String?
+  facebook        String?
+  youtube         String?
+  // Business info
+  gstNumber       String?
+  businessType    String?
+  // Location coordinates
+  latitude        Float?
+  longitude       Float?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  vendorId        String        @unique
+  vendor          User          @relation("ShopToVendor", fields: [vendorId], references: [id])
+  subCategories   SubCategory[]
+  products        Product[]
+  orders          Order[]
+  reviews         Review[]
+}
+
+// ── Global categories — created by ADMIN only ─────────────────────────────────
+model MainCategory {
+  id            String        @id @default(cuid())
+  name          String        @unique
+  icon          String        @default("🛒")
+  description   String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  subCategories SubCategory[]
+}
+
+// ── Vendor-scoped subcategories — each vendor creates their own under a MainCategory ──
+model SubCategory {
+  id             String       @id @default(cuid())
+  name           String
+  description    String?
+  mainCategoryId String
+  shopId         String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  mainCategory   MainCategory @relation(fields: [mainCategoryId], references: [id])
+  shop           Shop         @relation(fields: [shopId], references: [id])
+  products       Product[]
+
+  @@unique([name, shopId])
+}
+
+model Product {
+  id            String      @id @default(cuid())
+  name          String
+  description   String
+  price         Float
+  discount      Float       @default(0)
+  sellingPrice  Float       @default(0)
+  imageUrl      String?
+  isActive      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  shopId        String
+  subCategoryId String
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
+  shop          Shop        @relation(fields: [shopId], references: [id])
+}
+
+model Coupon {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  discount    Float
+  type        String    // PERCENTAGE or FIXED
+  minAmount   Float?
+  maxDiscount Float?
+  isActive    Boolean   @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  totalAmount     Float
+  status          String      @default("PLACED")
+  paymentMethod   String      @default("COD")
+  paymentStatus   String      @default("PENDING")
+  deliveryAddress String
+  contactNumber   String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  userId          String
+  shopId          String
+  shop            Shop        @relation(fields: [shopId], references: [id])
+  user            User        @relation("UserOrders", fields: [userId], references: [id])
+  orderItems      OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  quantity  Int
+  price     Float
+  orderId   String
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id])
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, productId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  userId    String
+  shopId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shop      Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, shopId])
+}

@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>District Kart &#8212; Premium Digital Marketplace</title>
+  <meta name="description"
+    content="A modern, scalable marketplace where vendors showcase their digital shops. Discover, connect, and grow." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- ============================================================
+     NAVIGATION BAR &#8212; Flipkart Style (Two-row header)
+     ============================================================ -->
+  <header class="site-header" id="navbar">
+    <!-- Top Bar: Logo + Search + Actions -->
+    <div class="header-top">
+      <div class="container container-wide header-top-inner">
+        <a href="#" class="nav-logo" data-page="home">
+          <span class="logo-mark">D</span>
+          District Kart
+        </a>
+
+        <div class="header-search">
+          <svg class="header-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <input class="header-search-input" type="text" placeholder="Search for Products, Brands and More" />
+        </div>
+
+        <div class="header-nav-main">
+          <button class="shopall-tab" data-cat="food">🍔 Food</button>
+          <button class="shopall-tab" data-cat="cakes">🍰 Cakes</button>
+          <a href="#" class="nav-link-cat" data-cat="clothes">Clothes</a>
+          <a href="#" class="nav-link-cat" data-cat="electronics">Electronics</a>
+          <a href="#" class="nav-link-cat" data-cat="shoes">Shoes</a>
+        </div>
+
+        <div class="header-actions">
+          <a href="#" class="header-action-item" data-page="login">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+            </svg>
+            <span>Login</span>
+          </a>
+          <a href="#" class="header-action-item" data-page="marketplace">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 01-8 0" />
+            </svg>
+            <span>Cart</span>
+          </a>
+          <div class="header-location" id="locationSelector">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <select id="locationSelect" class="location-select">
+              <option value="all">All Locations</option>
+              <option value="samastipur">📱Samastipur</option>
+              <option value="nababganj">📱Nababganj</option>
+            </select>
+          </div>
+        </div>
+        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Category Strip (Hidden on Vendor/Admin pages) -->
+    <div class="header-categories" id="categoryStrip">
+      <div class="container container-wide header-categories-inner">
+        <a href="#" class="cat-item active" data-cat="food">
+          <span class="cat-icon">🍔</span>
+          <span class="cat-label">Food</span>
+        </a>
+        <a href="#" class="cat-item" data-cat="cakes">
+          <span class="cat-icon">🍰</span>
+          <span class="cat-label">Cakes</span>
+        </a>
+        <a href="#" class="cat-item" data-cat="clothes">
+          <span class="cat-icon">👕</span>
+          <span class="cat-label">Clothes</span>
+        </a>
+        <a href="#" class="cat-item" data-cat="electronics">
+          <span class="cat-icon">📱</span>
+          <span class="cat-label">Electronics</span>
+        </a>
+        <a href="#" class="cat-item" data-cat="shoes">
+          <span class="cat-icon">👟</span>
+          <span class="cat-label">Shoes</span>
+        </a>
+      </div>
+    </div>
+  </header>
+  <!-- ============================================================
+     HERO BANNER SLIDESHOW
+     ============================================================ -->
+  <div class="slideshow-wrapper" id="heroSlideshow">
+    <div class="slideshow-track" id="slideshowTrack">
+      <div class="slide active">
+        <img src="images/banner1.png" alt="Women's Accessories Sale" />
+      </div>
+      <div class="slide">
+        <img src="images/banner2.png" alt="Electronics Mega Sale" />
+      </div>
+      <div class="slide">
+        <img src="images/banner3.png" alt="Food & Cake Delivery" />
+      </div>
+      <div class="slide">
+        <img src="images/banner4.png" alt="Shoes Collection" />
+      </div>
+      <div class="slide">
+        <img src="images/banner5.png" alt="Clothing Arrivals" />
+      </div>
+    </div>
+    <!-- Arrow Controls -->
+    <button class="slide-arrow slide-arrow-left" id="slidePrev" aria-label="Previous slide">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
+    <button class="slide-arrow slide-arrow-right" id="slideNext" aria-label="Next slide">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    </button>
+    <!-- Dot Indicators -->
+    <div class="slide-dots" id="slideDots">
+      <span class="dot active" data-index="0"></span>
+      <span class="dot" data-index="1"></span>
+      <span class="dot" data-index="2"></span>
+      <span class="dot" data-index="3"></span>
+      <span class="dot" data-index="4"></span>
+    </div>
+  </div>
+  <!-- ============================================================
+     PAGE 1: HOMEPAGE
+     ============================================================ -->
+  <div class="page page-home active" id="page-home">
+    <section class="section" id="trending-shops" style="padding-top: 32px;">
+      <div class="container container-wide">
+        <div class="section-header">
+          <span class="section-badge">FEATURED</span>
+          <h2 class="text-h2">Trending Shops</h2>
+          <p class="text-body">Handpicked digital shops loved by thousands of customers</p>
+        </div>
+        <div class="trending-slider" id="vendorShopGrid">
+          <!-- Vendor Card 1 -->
+          <div class="vendor-showcase-card" data-location="samastipur" data-cat="all">
+            <div class="vendor-banner">
+              <span>Shop Banner</span>
+              <div class="vendor-avatar">
+                <div class="vendor-avatar-inner">D</div>
+              </div>
+            </div>
+            <div class="vendor-body">
+              <h4 class="vendor-name">DesignCraft Studio</h4>
+              <div class="vendor-meta">
+                <span class="stars">★★★★★</span>
+                <span class="vendor-rating-num">4.9</span>
+                <span>·</span>
+                <span>Design</span>
+              </div>
+              <p class="vendor-desc">Premium UI kits, design systems, and digital assets for modern product teams.</p>
+            </div>
+            <div class="vendor-footer">
+              <span class="status-badge active">● Active</span>
+              <button class="view-shop-btn" data-page="shop-detail">View Shop →</button>
+            </div>
+          </div>
+          <!-- Vendor Card 2 -->
+          <div class="vendor-showcase-card" data-location="samastipur" data-cat="all">
+            <div class="vendor-banner">
+              <span>Shop Banner</span>
+              <div class="vendor-avatar">
+                <div class="vendor-avatar-inner">C</div>
+              </div>
+            </div>
+            <div class="vendor-body">
+              <h4 class="vendor-name">CodeForge Labs</h4>
+              <div class="vendor-meta">
+                <span class="stars">★★★★☆</span>
+                <span class="vendor-rating-num">4.6</span>
+                <span>·</span>
+                <span>Development</span>
+              </div>
+              <p class="vendor-desc">Full-stack templates, SaaS boilerplates, and developer tools built for speed.</p>
+            </div>
+            <div class="vendor-footer">
+              <span class="status-badge active">● Active</span>
+              <button class="view-shop-btn" data-page="shop-detail">View Shop →</button>
+            </div>
+          </div>
+          <!-- Vendor Card 3 -->
+          <div class="vendor-showcase-card" data-location="nababganj" data-cat="all">
+            <div class="vendor-banner">
+              <span>Shop Banner</span>
+              <div class="vendor-avatar">
+                <div class="vendor-avatar-inner">A</div>
+              </div>
+            </div>
+            <div class="vendor-body">
+              <h4 class="vendor-name">Artisan Fonts Co.</h4>
+              <div class="vendor-meta">
+                <span class="stars">★★★★★</span>
+                <span class="vendor-rating-num">5.0</span>
+                <span>·</span>
+                <span>Typography</span>
+              </div>
+              <p class="vendor-desc">Curated collection of handcrafted typefaces for branding and editorial design.</p>
+            </div>
+            <div class="vendor-footer">
+              <span class="status-badge trending">🔥 Trending</span>
+              <button class="view-shop-btn" data-page="shop-detail">View Shop →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOP DIRECTORY &#8212; Discover Local Shops with Category Tabs -->
+    <section class="section section-alt" id="shop-all">
+      <div class="container container-wide">
+        <div class="shopall-header">
+          <h2 class="text-h2">Discover Local Shops</h2>
+          <div class="shopall-line"></div>
+        </div>
+        <div class="shopall-tabs" id="shopallTabs">
+          <button class="shopall-tab active" data-cat="all">All Shops</button>
+          <button class="shopall-tab" data-cat="food">🍔 Food</button>
+          <button class="shopall-tab" data-cat="cakes">🍰 Cakes</button>
+          <button class="shopall-tab" data-cat="clothes">👕 Clothes</button>
+          <button class="shopall-tab" data-cat="electronics">📱 Electronics</button>
+          <button class="shopall-tab" data-cat="shoes">👟 Shoes</button>
+        </div>
+        <div class="product-grid-4" id="shopAllGrid">
+          <!-- Vendor 1 -->
+          <div class="vendor-showcase-card" data-cat="food" data-location="samastipur">
+            <div class="vendor-banner">
+              <span>Shop Banner</span>
+              <div class="vendor-avatar">
+                <div class="vendor-avatar-inner">B</div>
+              </div>
+            </div>
+            <div class="vendor-body">
+              <h4 class="vendor-name">Bihar Bites</h4>
+              <div class="vendor-meta">
+                <span class="stars">★★★★★</span>
+                <span class="vendor-rating-num">4.8</span>
+                <span>·</span>
+                <span>Food</span>
+              </div>
+              <p class="vendor-desc">Authentic local cuisines and snacks delivered fresh to your doorstep.</p>
+            </div>
+            <div class="vendor-footer">
+              <span class="status-badge active">● Active</span>
+              <button class="view-shop-btn" data-page="shop-detail">View Shop →</button>
+            </div>
+          </div>
+          <!-- Vendor 2 -->
+          <div class="vendor-showcase-card" data-cat="cakes" data-location="nababganj">
+            <div class="vendor-banner">
+              <span>Shop Banner</span>
+              <div class="vendor-avatar">
+                <div class="vendor-avatar-inner">V</div>
+              </div>
+            </div>
+            <div class="vendor-body">
+              <h4 class="vendor-name">The Velvet Cake</h4>
+              <div class="vendor-meta">
+                <span class="stars">★★★★☆</span>
+                <span class="vendor-rating-num">4.7</span>
+                <span>·</span>
+                <span>Cakes</span>
+              </div>
+              <p class="vendor-desc">Handcrafted gourmet cakes and pastries for every special occasion.</p>
+            </div>
+            <div class="vendor-footer">
+              <span class="status-badge trending">🔥 Trending</span>
+              <button class="view-shop-btn" data-page="shop-detail">View Shop →</button>
+            </div>
+          </div>
+      <!-- Vendor 3 -->
+      <div class="vendor-showcase-card" data-cat="clothes" data-location="samastipur">
+        <div class="vendor-banner">
+          <span>Shop Banner</span>
+          <div class="vendor-avatar">
+            <div class="vendor-avatar-inner">S</div>
+          </div>
+        </div>
+        <div class="vendor-body">
+          <h4 class="vendor-name">Style Junction</h4>
+          <div class="vendor-meta">
+            <span class="stars">★★★★★</span>
+            <span class="vendor-rating-num">4.9</span>
+            <span>·</span>
+            <span>Clothes</span>
+          </div>
+          <p class="vendor-desc">Latest fashion trends and premium quality apparel for men and women.</p>
+        </div>
+        <div class="vendor-footer">
+          <span class="status-badge active">● Active</span>
+          <button class="view-shop-btn" data-page="shop-detail">View Shop →</button>
+        </div>
+      </div>
+      <!-- Vendor 4 -->
+      <div class="vendor-showcase-card" data-cat="electronics" data-location="nababganj">
+        <div class="vendor-banner">
+          <span>Shop Banner</span>
+          <div class="vendor-avatar">
+            <div class="vendor-avatar-inner">G</div>
+          </div>
+        </div>
+        <div class="vendor-body">
+          <h4 class="vendor-name">Global Gadgets</h4>
+          <div class="vendor-meta">
+            <span class="stars">★★★★☆</span>
+            <span class="vendor-rating-num">4.5</span>
+            <span>·</span>
+            <span>Electronics</span>
+          </div>
+          <p class="vendor-desc">Top-tier gadgets, accessories, and tech solutions at unbeatable prices.</p>
+        </div>
+        <div class="vendor-footer">
+          <span class="status-badge active">● Active</span>
+          <button class="view-shop-btn" data-page="shop-detail">View Shop →</button>
+        </div>
+      </div>
+        </div><!-- /shopAllGrid -->
+      </div><!-- /container -->
+    </section>
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="text-overline">How it Works</span>
+        <h2 class="text-h2">Start in 3 Simple Steps</h2>
+        <p class="text-body">From sign-up to your first sale &#8212; we've made it effortless</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h4 class="text-h4">Create Your Shop</h4>
+          <p>Sign up, choose a template, customize your brand, and set up your digital storefront in minutes.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h4 class="text-h4">Add Products</h4>
+          <p>Upload your digital products, set pricing, write descriptions, and organize your catalog.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h4 class="text-h4">Start Selling</h4>
+          <p>Share your shop link, accept payments globally, and track performance with built-in analytics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY SAMPLE SHOWCASE &#8212; Dynamic Gallery -->
+  <section class="section" id="sample-showcase" style="padding-top: 0;">
+    <div class="container container-wide">
+      <div class="section-header">
+        <span class="text-overline">Vibe Check</span>
+        <h2 class="text-h2"><span id="sample-category-name">Food</span> Samples</h2>
+        <p class="text-body">A glimpse into the premium quality offered by our featured vendors.</p>
+      </div>
+      <div class="sample-grid" id="sampleGrid">
+        <!-- Initial Food Samples (mix of real and premium placeholders) -->
+        <div class="sample-card">
+          <img src="images/food_sample_1.png" alt="Food Sample 1" class="sample-img">
+          <div class="sample-overlay">
+            <span>Authentic Thali</span>
+          </div>
+        </div>
+        <div class="sample-card">
+          <div class="sample-placeholder food-v1"><span>Gourmet Burger</span></div>
+          <div class="sample-overlay">
+            <span>Gourmet Burger</span>
+          </div>
+        </div>
+        <div class="sample-card">
+          <div class="sample-placeholder food-v2"><span>Artisanal Pizza</span></div>
+          <div class="sample-overlay">
+            <span>Artisanal Pizza</span>
+          </div>
+        </div>
+        <div class="sample-card">
+          <div class="sample-placeholder food-v3"><span>Sushi Platter</span></div>
+          <div class="sample-overlay">
+            <span>Sushi Platter</span>
+          </div>
+        </div>
+        <div class="sample-card">
+          <div class="sample-placeholder food-v1"><span>Healthy Salad</span></div>
+          <div class="sample-overlay">
+            <span>Healthy Salad</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- TESTIMONIALS -->
+  <section class="section section-alt" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <span class="text-overline">Testimonials</span>
+        <h2 class="text-h2">Loved by Creators</h2>
+        <p class="text-body">See what our community has to say about District Kart</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="testimonial-card">
+          <div class="stars" style="margin-bottom:16px;">★★★★★</div>
+          <p class="quote">"District Kart transformed my freelance business. I went from scattered Gumroad links to a
+            professional storefront in under an hour. Sales jumped 3x in the first month."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">SK</div>
+            <div class="testimonial-info">
+              <div class="name">Sarah Kim</div>
+              <div class="role">UI Designer · DesignCraft Studio</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars" style="margin-bottom:16px;">★★★★★</div>
+          <p class="quote">"The vendor dashboard is incredibly detailed. I can track every metric, manage inventory,
+            and respond to customers &#8212; all from one place. It's like Shopify for digital goods."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MR</div>
+            <div class="testimonial-info">
+              <div class="name">Marcus Reed</div>
+              <div class="role">Developer · CodeForge Labs</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars" style="margin-bottom:16px;">★★★★<span class="empty">★</span></div>
+          <p class="quote">"Clean, minimal, and fast. My photography presets shop looks stunning and customers love
+            the buying experience. Support team is also top-notch &#8212; quick and helpful."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">EL</div>
+            <div class="testimonial-info">
+              <div class="name">Emma Liu</div>
+              <div class="role">Photographer · LensCraft</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CTA BANNER -->
+  <section class="section" style="padding-bottom: 0;">
+    <div class="container">
+      <div class="cta-banner">
+        <h2 class="text-h2">Ready to build your shop?</h2>
+        <p class="text-body">Join 12,000+ creators already selling on District Kart. No credit card required.</p>
+        <button class="btn btn-accent btn-lg" data-page="register">Get Started for Free →</button>
+      </div>
+    </div>
+  </section>
+  <!-- FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="container container-wide">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <span class="logo-mark">M</span>
+            District Kart
+          </div>
+          <p>The modern marketplace platform for digital creators. Build, launch, and scale your shop with confidence.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h5>Product</h5>
+          <a href="#" data-page="marketplace">Marketplace</a>
+          <a href="#">Pricing</a>
+          <a href="#">Templates</a>
+          <a href="#">Integrations</a>
+          <a href="#">API</a>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <a href="#">About</a>
+          <a href="#">Blog</a>
+          <a href="#">Careers</a>
+          <a href="#">Press</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h5>Support</h5>
+          <a href="#">Help Center</a>
+          <a href="#">Documentation</a>
+          <a href="#">Status</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 District Kart. All rights reserved.</span>
+        <div class="footer-social">
+          <a href="#">Twitter</a>
+          <a href="#">GitHub</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  </div><!-- /page-home -->
+  <!-- ============================================================
+     PAGE 2: MARKETPLACE
+     ============================================================ -->
+  <div class="page page-marketplace" id="page-marketplace">
+    <div class="container container-wide">
+      <div class="marketplace-layout">
+        <!-- SIDEBAR FILTERS -->
+        <aside class="filter-sidebar">
+          <div class="card card-flat"
+            style="padding: 24px; border: 1px solid var(--border-light); border-radius: var(--radius-lg);">
+            <h3 class="text-h4" style="margin-bottom: 24px;">Filters</h3>
+            <!-- Category -->
+            <div class="filter-section">
+              <h5>Category</h5>
+              <div class="filter-options">
+                <label class="filter-option active">
+                  <span class="filter-check"></span> Design
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> Development
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> Writing
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> Photography
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> Audio & Music
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> Video
+                </label>
+              </div>
+            </div>
+            <div class="filter-divider"></div>
+            <!-- Location -->
+            <div class="filter-section">
+              <h5>Location</h5>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <span class="filter-check"></span> United States
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> Europe
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> Asia Pacific
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> Remote / Global
+                </label>
+              </div>
+            </div>
+            <div class="filter-divider"></div>
+            <!-- Rating -->
+            <div class="filter-section">
+              <h5>Rating</h5>
+              <div class="filter-options">
+                <div class="filter-rating"><span class="stars">★★★★★</span> <span
+                    style="font-size:13px;color:var(--text-secondary)">& up</span></div>
+                <div class="filter-rating"><span class="stars">★★★★<span class="empty">★</span></span> <span
+                    style="font-size:13px;color:var(--text-secondary)">& up</span></div>
+                <div class="filter-rating"><span class="stars">★★★<span class="empty">★★</span></span> <span
+                    style="font-size:13px;color:var(--text-secondary)">& up</span></div>
+              </div>
+            </div>
+            <div class="filter-divider"></div>
+            <!-- Price Range -->
+            <div class="filter-section">
+              <h5>Price Range</h5>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <span class="filter-check"></span> Free
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> $1 – $25
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> $25 – $100
+                </label>
+                <label class="filter-option">
+                  <span class="filter-check"></span> $100+
+                </label>
+              </div>
+            </div>
+            <div style="margin-top: 24px;">
+              <button class="btn btn-primary" style="width: 100%;">Apply Filters</button>
+            </div>
+          </div>
+        </aside>
+        <!-- RESULTS -->
+        <main>
+          <div class="marketplace-header">
+            <h3 class="text-h3">All Shops <span>(248 results)</span></h3>
+            <div class="marketplace-sort">
+              <span style="font-size:13px; color:var(--text-secondary);">Sort by:</span>
+              <select>
+                <option>Most Popular</option>
+                <option>Highest Rated</option>
+                <option>Newest</option>
+                <option>Name A–Z</option>
+              </select>
+            </div>
+          </div>
+          <div class="shop-grid" id="shopGrid">
+            <!-- Generated by JS -->
+          </div>
+        </main>
+      </div>
+    </div>
+  </div><!-- /page-marketplace -->
+  <!-- ============================================================
+     PAGE 3: SHOP DETAIL
+     ============================================================ -->
+  <div class="page page-shop-detail" id="page-shop-detail">
+    <!-- Banner -->
+    <div class="shop-banner">
+      <div class="shop-banner-overlay"></div>
+      <div class="shop-banner-content">
+        <div class="container">
+          <div class="shop-profile-row">
+            <div class="shop-profile-avatar">D</div>
+            <div class="shop-profile-info">
+              <h1>DesignCraft Studio</h1>
+              <div class="shop-meta">
+                <span class="stars">★★★★★</span>
+                <span>4.9 (312 reviews)</span>
+                <span>·</span>
+                <span>San Francisco, CA</span>
+                <span>·</span>
+                <span>Joined Jan 2024</span>
+              </div>
+            </div>
+            <div class="shop-profile-actions">
+              <button class="btn btn-accent">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                Contact
+              </button>
+              <button class="btn btn-secondary"
+                style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <line x1="19" y1="8" x2="19" y2="14" />
+                  <line x1="22" y1="11" x2="16" y2="11" />
+                </svg>
+                Follow
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Shop Nav Tabs -->
+    <div class="shop-detail-nav">
+      <div class="container">
+        <a href="#" class="active">About</a>
+        <a href="#">Products</a>
+        <a href="#">Gallery</a>
+        <a href="#">Reviews</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <!-- Shop Detail Content -->
+    <div class="shop-detail-content">
+      <div class="container">
+        <!-- About Section -->
+        <div class="shop-about" style="margin-bottom: 64px;">
+          <span class="wire-label">About Section</span>
+          <h3 class="text-h3">About DesignCraft Studio</h3>
+          <p>DesignCraft Studio is a premium digital design shop founded in 2024 by Sarah Kim, a product designer with
+            10+ years of experience at companies like Stripe, Figma, and Linear.</p>
+          <p>We specialize in creating production-ready UI kits, design systems, and component libraries that help
+            product teams ship faster. Every asset is meticulously crafted with attention to detail, accessibility, and
+            scalability.</p>
+          <div class="grid grid-3" style="margin-top: 32px;">
+            <div class="stat-card">
+              <div class="stat-value">47</div>
+              <div class="stat-label">Products Listed</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">8,200+</div>
+              <div class="stat-label">Happy Customers</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">4.9</div>
+              <div class="stat-label">Average Rating</div>
+            </div>
+          </div>
+        </div>
+        <!-- Products Section -->
+        <div style="margin-bottom: 64px;">
+          <span class="wire-label">Products / Services</span>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 24px;">
+            <h3 class="text-h3">Products & Services</h3>
+            <button class="btn btn-sm btn-secondary">View All →</button>
+          </div>
+          <div class="grid grid-4" id="productGrid">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+        <!-- Gallery Section -->
+        <div style="margin-bottom: 64px;">
+          <span class="wire-label">Image Gallery</span>
+          <h3 class="text-h3" style="margin-bottom: 24px;">Gallery</h3>
+          <div class="gallery-grid">
+            <div class="gallery-item">Featured Image</div>
+            <div class="gallery-item">Gallery 1</div>
+            <div class="gallery-item">Gallery 2</div>
+            <div class="gallery-item">Gallery 3</div>
+            <div class="gallery-item">Gallery 4</div>
+            <div class="gallery-item">Gallery 5</div>
+            <div class="gallery-item">Gallery 6</div>
+          </div>
+        </div>
+        <!-- Contact Section -->
+        <div style="margin-bottom: 64px;">
+          <span class="wire-label">Contact Information</span>
+          <h3 class="text-h3" style="margin-bottom: 24px;">Contact</h3>
+          <div class="grid grid-2">
+            <div class="contact-info">
+              <div class="contact-row">
+                <div class="contact-icon">📧</div>
+                <div>
+                  <div class="label">Email</div>
+                  <div class="value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f69e939a9a99b69293859f91989584979082d8858283929f99">[email&#160;protected]</a></div>
+                </div>
+              </div>
+              <div class="contact-row">
+                <div class="contact-icon">📱</div>
+                <div>
+                  <div class="label">Phone</div>
+                  <div class="value">+1 (415) 555-0142</div>
+                </div>
+              </div>
+              <div class="contact-row">
+                <div class="contact-icon">📍</div>
+                <div>
+                  <div class="label">Location</div>
+                  <div class="value">San Francisco, California</div>
+                </div>
+              </div>
+              <div class="contact-row">
+                <div class="contact-icon">🌐</div>
+                <div>
+                  <div class="label">Website</div>
+                  <div class="value">www.designcraft.studio</div>
+                </div>
+              </div>
+            </div>
+            <div class="card card-flat" style="padding: 32px; border: 1px solid var(--border-light);">
+              <h4 class="text-h4" style="margin-bottom: 20px;">Send a Message</h4>
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                <input class="input" placeholder="Your Name" />
+                <input class="input" placeholder="Email Address" />
+                <textarea class="input" placeholder="Your message..." rows="4" style="resize:vertical;"></textarea>
+                <button class="btn btn-primary">Send Message</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /page-shop-detail -->
+  <!-- ============================================================
+     PAGE 4: VENDOR DASHBOARD
+     ============================================================ -->
+  <div class="page page-vendor dashboard-layout" id="page-vendor">
+    <!-- Sidebar -->
+    <aside class="dash-sidebar">
+      <div class="dash-sidebar-header">
+        <div class="nav-avatar">SK</div>
+        <div>
+          <h4>Sarah Kim</h4>
+          <p>Vendor · Pro Plan</p>
+        </div>
+      </div>
+      <div class="dash-nav-group">
+        <div class="group-label">Main</div>
+        <div class="dash-nav-item active">
+          <span class="nav-icon">📊</span> Dashboard
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">🏪</span> My Shop
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">📦</span> Products
+          <span class="nav-badge">47</span>
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">🛒</span> Orders
+          <span class="nav-badge">12</span>
+        </div>
+      </div>
+      <div class="dash-nav-group">
+        <div class="group-label">Analytics</div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">📈</span> Performance
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">👥</span> Customers
+        </div>
+      </div>
+      <div class="dash-nav-group">
+        <div class="group-label">Settings</div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">⚙️</span> Settings
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">💳</span> Billing
+        </div>
+      </div>
+    </aside>
+    <!-- Main Panel -->
+    <main class="dash-main">
+      <div class="dash-main-header">
+        <div>
+          <span class="wire-label">Vendor Dashboard</span>
+          <h2>Dashboard Overview</h2>
+          <p class="text-body-sm" style="color:var(--text-secondary); margin-top:4px;">Welcome back, Sarah. Here's
+            what's happening today.</p>
+        </div>
+        <div class="flex gap-12">
+          <button class="btn btn-secondary btn-sm" data-page="home">← Home</button>
+          <button class="btn btn-secondary btn-sm">Export</button>
+          <button class="btn btn-primary btn-sm">+ Add Product</button>
+        </div>
+      </div>
+      <!-- Stats Row -->
+      <div class="grid grid-4" style="margin-bottom: 32px;">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">👁️</div>
+            <div class="stat-change positive">↑ 12.5%</div>
+          </div>
+          <div class="stat-value">24,580</div>
+          <div class="stat-label">Total Views</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">💰</div>
+            <div class="stat-change positive">↑ 8.2%</div>
+          </div>
+          <div class="stat-value">$12,430</div>
+          <div class="stat-label">Revenue (MTD)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">🛒</div>
+            <div class="stat-change positive">↑ 5.1%</div>
+          </div>
+          <div class="stat-value">342</div>
+          <div class="stat-label">Orders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-change negative">↓ 0.1</div>
+          </div>
+          <div class="stat-value">4.9</div>
+          <div class="stat-label">Avg. Rating</div>
+        </div>
+      </div>
+      <!-- Charts Row -->
+      <div class="grid grid-2" style="margin-bottom: 32px;">
+        <div class="chart-placeholder">
+          <div class="chart-header">
+            <h4>Revenue Overview</h4>
+            <div class="flex gap-8">
+              <button class="btn btn-sm btn-ghost" style="font-size:12px;">7D</button>
+              <button class="btn btn-sm btn-ghost" style="font-size:12px;background:var(--gray-100);">30D</button>
+              <button class="btn btn-sm btn-ghost" style="font-size:12px;">90D</button>
+            </div>
+          </div>
+          <div class="chart-area" id="revenueChart">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+        <div class="chart-placeholder">
+          <div class="chart-header">
+            <h4>Traffic Sources</h4>
+            <button class="btn btn-sm btn-ghost" style="font-size:12px;">View Report</button>
+          </div>
+          <div class="chart-area" id="trafficChart">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+      </div>
+      <!-- Recent Activity -->
+      <div class="data-table">
+        <div class="table-header">
+          <h4 class="text-h4">Recent Activity</h4>
+          <button class="btn btn-sm btn-ghost">View All →</button>
+        </div>
+        <div class="activity-feed">
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--success);"></div>
+            <div>
+              <div class="text-body-sm"><strong>New order</strong> &#8212; Marcus Reed purchased "Enterprise UI Kit" for
+                $49</div>
+              <div class="time">2 minutes ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--accent);"></div>
+            <div>
+              <div class="text-body-sm"><strong>New review</strong> &#8212; Emma Liu left a 5-star review on "Design
+                System Pro"</div>
+              <div class="time">18 minutes ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--warning);"></div>
+            <div>
+              <div class="text-body-sm"><strong>Low stock alert</strong> &#8212; "Icon Pack Bundle" has only 5 license
+                keys remaining</div>
+              <div class="time">1 hour ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--success);"></div>
+            <div>
+              <div class="text-body-sm"><strong>New order</strong> &#8212; Alex Johnson purchased "Landing Page
+                Templates" for $29</div>
+              <div class="time">2 hours ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div>
+              <div class="text-body-sm"><strong>Shop update</strong> &#8212; You updated your shop description and
+                banner image</div>
+              <div class="time">5 hours ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div><!-- /page-vendor -->
+  <!-- ============================================================
+     PAGE 5: ADMIN DASHBOARD
+     ============================================================ -->
+  <div class="page page-admin dashboard-layout" id="page-admin">
+    <!-- Sidebar -->
+    <aside class="dash-sidebar">
+      <div class="dash-sidebar-header">
+        <div class="nav-avatar" style="background:var(--accent);color:#fff;">A</div>
+        <div>
+          <h4>Admin Panel</h4>
+          <p>Super Admin</p>
+        </div>
+      </div>
+      <div class="dash-nav-group">
+        <div class="group-label">Overview</div>
+        <div class="dash-nav-item active">
+          <span class="nav-icon">📊</span> Dashboard
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">📈</span> Analytics
+        </div>
+      </div>
+      <div class="dash-nav-group">
+        <div class="group-label">Management</div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">👥</span> Users
+          <span class="nav-badge">2.4k</span>
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">🏪</span> Shops
+          <span class="nav-badge">248</span>
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">🎨</span> Templates
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">🏷️</span> Categories
+        </div>
+      </div>
+      <div class="dash-nav-group">
+        <div class="group-label">Moderation</div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">🚩</span> Reports
+          <span class="nav-badge" style="background:var(--danger);">7</span>
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">✅</span> Approvals
+          <span class="nav-badge">3</span>
+        </div>
+      </div>
+      <div class="dash-nav-group">
+        <div class="group-label">System</div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">⚙️</span> Settings
+        </div>
+        <div class="dash-nav-item">
+          <span class="nav-icon">📄</span> Logs
+        </div>
+      </div>
+    </aside>
+    <!-- Main Panel -->
+    <main class="dash-main">
+      <div class="dash-main-header">
+        <div>
+          <span class="wire-label">Admin Dashboard</span>
+          <h2>Platform Overview</h2>
+          <p class="text-body-sm" style="color:var(--text-secondary); margin-top:4px;">Real-time metrics and management
+            controls</p>
+        </div>
+        <div class="flex gap-12">
+          <button class="btn btn-secondary btn-sm" data-page="home">← Home</button>
+          <button class="btn btn-secondary btn-sm">Generate Report</button>
+          <button class="btn btn-primary btn-sm">+ Add User</button>
+        </div>
+      </div>
+      <!-- Stats Row -->
+      <div class="grid grid-4" style="margin-bottom: 32px;">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">👥</div>
+            <div class="stat-change positive">↑ 18.3%</div>
+          </div>
+          <div class="stat-value">2,413</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">🏪</div>
+            <div class="stat-change positive">↑ 6.7%</div>
+          </div>
+          <div class="stat-value">248</div>
+          <div class="stat-label">Active Shops</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">💰</div>
+            <div class="stat-change positive">↑ 22.1%</div>
+          </div>
+          <div class="stat-value">$84.2K</div>
+          <div class="stat-label">GMV (Monthly)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">🚩</div>
+            <div class="stat-change negative">↑ 2</div>
+          </div>
+          <div class="stat-value">7</div>
+          <div class="stat-label">Open Reports</div>
+        </div>
+      </div>
+      <!-- Chart -->
+      <div class="chart-placeholder" style="margin-bottom: 32px;">
+        <div class="chart-header">
+          <h4>Platform Growth</h4>
+          <div class="flex gap-8">
+            <button class="btn btn-sm btn-ghost" style="font-size:12px;">Users</button>
+            <button class="btn btn-sm btn-ghost" style="font-size:12px;background:var(--gray-100);">Shops</button>
+            <button class="btn btn-sm btn-ghost" style="font-size:12px;">Revenue</button>
+          </div>
+        </div>
+        <div class="chart-area" id="adminChart">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+      <!-- Users Table -->
+      <div class="data-table" style="margin-bottom: 32px;">
+        <div class="table-header">
+          <h4 class="text-h4">Recent Users</h4>
+          <div class="flex gap-8">
+            <input class="input" style="width:200px;padding:8px 12px;font-size:13px;" placeholder="Search users..." />
+            <button class="btn btn-sm btn-secondary">Export</button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Shop</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="table-user">
+                  <div class="table-avatar">SK</div><strong>Sarah Kim</strong>
+                </div>
+              </td>
+              <td style="color:var(--text-secondary)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="42312330232a022627312b252c21302324366c313637262b2d">[email&#160;protected]</a></td>
+              <td><span class="badge">Vendor</span></td>
+              <td>DesignCraft Studio</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td><button class="btn btn-sm btn-ghost">•••</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-user">
+                  <div class="table-avatar">MR</div><strong>Marcus Reed</strong>
+                </div>
+              </td>
+              <td style="color:var(--text-secondary)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6805091a0b1d1b280b070c0d0e071a0f0d460c0d1e">[email&#160;protected]</a></td>
+              <td><span class="badge">Vendor</span></td>
+              <td>CodeForge Labs</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td><button class="btn btn-sm btn-ghost">•••</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-user">
+                  <div class="table-avatar">EL</div><strong>Emma Liu</strong>
+                </div>
+              </td>
+              <td style="color:var(--text-secondary)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d1b4bcbcb091bdb4bfa2b2a3b0b7a5ffb2be">[email&#160;protected]</a></td>
+              <td><span class="badge">Vendor</span></td>
+              <td>LensCraft</td>
+              <td><span class="badge badge-warning">Pending</span></td>
+              <td><button class="btn btn-sm btn-ghost">•••</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-user">
+                  <div class="table-avatar">JD</div><strong>James Davis</strong>
+                </div>
+              </td>
+              <td style="color:var(--text-secondary)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3f555e525a4c115b7f58525e5653115c5052">[email&#160;protected]</a></td>
+              <td><span class="badge">Customer</span></td>
+              <td>&#8212;</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td><button class="btn btn-sm btn-ghost">•••</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-user">
+                  <div class="table-avatar">AP</div><strong>Anika Patel</strong>
+                </div>
+              </td>
+              <td style="color:var(--text-secondary)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d4b5babdbfb5faa494bba1a0b8bbbbbffab7bbb9">[email&#160;protected]</a></td>
+              <td><span class="badge">Customer</span></td>
+              <td>&#8212;</td>
+              <td><span class="badge badge-danger">Suspended</span></td>
+              <td><button class="btn btn-sm btn-ghost">•••</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Shops Management -->
+      <div class="data-table">
+        <div class="table-header">
+          <h4 class="text-h4">Shop Management</h4>
+          <button class="btn btn-sm btn-secondary">View All Shops</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Shop</th>
+              <th>Owner</th>
+              <th>Category</th>
+              <th>Products</th>
+              <th>Rating</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>DesignCraft Studio</strong></td>
+              <td style="color:var(--text-secondary)">Sarah Kim</td>
+              <td>Design</td>
+              <td>47</td>
+              <td><span class="stars" style="font-size:12px;">★★★★★</span> 4.9</td>
+              <td><span class="badge badge-success">Approved</span></td>
+              <td><button class="btn btn-sm btn-ghost">•••</button></td>
+            </tr>
+            <tr>
+              <td><strong>CodeForge Labs</strong></td>
+              <td style="color:var(--text-secondary)">Marcus Reed</td>
+              <td>Development</td>
+              <td>23</td>
+              <td><span class="stars" style="font-size:12px;">★★★★<span class="empty">★</span></span> 4.6</td>
+              <td><span class="badge badge-success">Approved</span></td>
+              <td><button class="btn btn-sm btn-ghost">•••</button></td>
+            </tr>
+            <tr>
+              <td><strong>LensCraft</strong></td>
+              <td style="color:var(--text-secondary)">Emma Liu</td>
+              <td>Photography</td>
+              <td>18</td>
+              <td><span class="stars" style="font-size:12px;">★★★★<span class="empty">★</span></span> 4.7</td>
+              <td><span class="badge badge-warning">Under Review</span></td>
+              <td><button class="btn btn-sm btn-ghost">•••</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div><!-- /page-admin -->
+  <!-- ============================================================
+     PAGE LOGIN: USER / VENDOR / ADMIN LOGIN
+     ============================================================ -->
+  <div class="page page-login" id="page-login">
+    <div
+      style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #fff; padding: 40px 20px;">
+      <div style="width: 100%; max-width: 460px;">
+        <!-- Logo -->
+        <div style="text-align: center; margin-bottom: 48px;">
+          <div style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <span class="logo-mark">D</span>
+            <span style="font-size: 26px; font-weight: 800; color: var(--gray-900); letter-spacing: -0.5px;">District
+              Kart</span>
+          </div>
+          <p style="font-size: 14px; color: var(--gray-400); font-weight: 500;">Hierarchical Access Platform</p>
+        </div>
+
+        <!-- Login Card -->
+        <div
+          style="background: #fff; border: 1.5px solid var(--gray-150); border-radius: 28px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.04);">
+
+          <!-- Role Tabs -->
+          <div id="loginRoleTabs"
+            style="display: flex; gap: 8px; margin-bottom: 28px; background: var(--gray-50); border-radius: 16px; padding: 5px;">
+            <button class="login-role-tab active" data-role="user"
+              style="flex:1; padding: 12px 8px; border-radius: 12px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all .25s; background: var(--gray-900); color: #fff; font-family: var(--font-sans);">
+              ◉ User
+            </button>
+            <button class="login-role-tab" data-role="vendor"
+              style="flex:1; padding: 12px 8px; border-radius: 12px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all .25s; background: transparent; color: var(--gray-500); font-family: var(--font-sans);">
+              ◆ Vendor
+            </button>
+            <button class="login-role-tab" data-role="admin"
+              style="flex:1; padding: 12px 8px; border-radius: 12px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all .25s; background: transparent; color: var(--gray-500); font-family: var(--font-sans);">
+              ○ Admin
+            </button>
+          </div>
+
+          <!-- Role Badge -->
+          <div id="loginRoleBadge"
+            style="margin-bottom: 24px; padding: 10px 16px; background: var(--gray-50); border-radius: 12px; border: 1.5px solid var(--gray-100);">
+            <span style="font-size: 13px; font-weight: 700; color: var(--accent);">◉ User Account</span>
+          </div>
+
+          <!-- Form -->
+          <form id="loginForm" style="display: flex; flex-direction: column; gap: 20px;" onsubmit="handleLogin(event)">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <label
+                style="font-size: 11px; font-weight: 800; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1.2px; padding-left: 4px;">Email</label>
+              <input id="loginEmail" class="input" type="email" placeholder="Enter user email" required
+                style="height: 54px; border-radius: 14px; border-color: var(--gray-150); padding: 0 20px; font-size: 14px; font-weight: 500;" />
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <label
+                style="font-size: 11px; font-weight: 800; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1.2px; padding-left: 4px;">Password</label>
+              <input id="loginPassword" class="input" type="password" placeholder="Enter password" required
+                style="height: 54px; border-radius: 14px; border-color: var(--gray-150); padding: 0 20px; font-size: 14px; font-weight: 500;" />
+            </div>
+
+            <!-- Sign In Button -->
+            <button type="submit" id="loginSubmitBtn" class="btn btn-accent"
+              style="height: 56px; border-radius: 16px; font-size: 15px; font-weight: 800; width: 100%; margin-top: 8px; letter-spacing: 0.3px;">
+              Sign In as User
+            </button>
+          </form>
+
+          <!-- Fill Demo Button -->
+          <button id="fillDemoBtn" onclick="fillDemoCredentials()"
+            style="width: 100%; margin-top: 16px; padding: 14px; border-radius: 14px; border: 1.5px solid var(--gray-150); background: #fff; font-size: 13px; font-weight: 700; color: var(--gray-600); cursor: pointer; transition: all .2s; font-family: var(--font-sans); display: flex; align-items: center; justify-content: center; gap: 8px;">
+            ⚡ Fill Demo Credentials
+          </button>
+
+          <!-- Demo Accounts Info -->
+          <div
+            style="margin-top: 24px; padding: 20px; background: var(--gray-50); border-radius: 16px; border: 1px solid var(--gray-100);">
+            <p
+              style="font-size: 11px; font-weight: 800; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 12px;">
+              Demo Accounts</p>
+            <div
+              style="display: flex; flex-direction: column; gap: 8px; font-family: var(--font-mono); font-size: 12px;">
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <span style="font-weight: 800; color: #EF4444; min-width: 55px;">admin</span>
+                <span style="color: var(--gray-500);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95f4f1f8fcfbd5f0f8f4fcf9bbf6faf8">[email&#160;protected]</a> / admin123</span>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <span style="font-weight: 800; color: #F59E0B; min-width: 55px;">vendor</span>
+                <span style="color: var(--gray-500);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c3b5a6ada7acb1f283a6aea2aaafeda0acae">[email&#160;protected]</a> / vendor123</span>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <span style="font-weight: 800; color: #22C55E; min-width: 55px;">user</span>
+                <span style="color: var(--gray-500);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0d2c1d6c9e0c5cdc1c9cc8ec3cfcd">[email&#160;protected]</a> / user123</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Links -->
+        <div style="text-align: center; margin-top: 32px;">
+          <p style="font-size: 14px; color: var(--gray-400);">Don't have an account?</p>
+          <div style="display: flex; justify-content: center; gap: 20px; margin-top: 12px;">
+            <a href="#" data-page="register"
+              style="font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.8px; text-decoration: none;">Create
+              Account</a>
+            <span style="color: var(--gray-200);">|</span>
+            <a href="#" data-page="home"
+              style="font-size: 12px; font-weight: 800; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.8px; text-decoration: none;">←
+              Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     PAGE REGISTER: CREATE ACCOUNT
+     ============================================================ -->
+  <div class="page page-register" id="page-register">
+    <div
+      style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #fff; padding: 40px 20px;">
+      <div style="width: 100%; max-width: 460px;">
+        <!-- Logo -->
+        <div style="text-align: center; margin-bottom: 48px;">
+          <div style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <span class="logo-mark">D</span>
+            <span style="font-size: 26px; font-weight: 800; color: var(--gray-900); letter-spacing: -0.5px;">District
+              Kart</span>
+          </div>
+          <p style="font-size: 14px; color: var(--gray-400); font-weight: 500;">Create your new account</p>
+        </div>
+
+        <!-- Register Card -->
+        <div
+          style="background: #fff; border: 1.5px solid var(--gray-150); border-radius: 28px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.04);">
+
+          <!-- Register Role Selector -->
+          <div id="registerRoleTabs"
+            style="display: flex; gap: 8px; margin-bottom: 28px; background: var(--gray-50); border-radius: 16px; padding: 5px;">
+            <button class="register-role-tab active" data-role="user"
+              style="flex:1; padding: 12px 8px; border-radius: 12px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all .25s; background: var(--gray-900); color: #fff; font-family: var(--font-sans);">
+              👤 User
+            </button>
+            <button class="register-role-tab" data-role="vendor"
+              style="flex:1; padding: 12px 8px; border-radius: 12px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all .25s; background: transparent; color: var(--gray-500); font-family: var(--font-sans);">
+              🏪 Vendor
+            </button>
+          </div>
+
+          <!-- Form -->
+          <form id="registerForm" style="display: flex; flex-direction: column; gap: 20px;"
+            onsubmit="handleRegister(event)">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <label
+                style="font-size: 11px; font-weight: 800; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1.2px; padding-left: 4px;">Full
+                Name</label>
+              <input id="registerName" class="input" type="text" placeholder="Enter your full name" required
+                style="height: 54px; border-radius: 14px; border-color: var(--gray-150); padding: 0 20px; font-size: 14px; font-weight: 500;" />
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <label
+                style="font-size: 11px; font-weight: 800; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1.2px; padding-left: 4px;">Email
+                Address</label>
+              <input id="registerEmail" class="input" type="email" placeholder="name@example.com" required
+                style="height: 54px; border-radius: 14px; border-color: var(--gray-150); padding: 0 20px; font-size: 14px; font-weight: 500;" />
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <label
+                style="font-size: 11px; font-weight: 800; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1.2px; padding-left: 4px;">Password</label>
+              <input id="registerPassword" class="input" type="password" placeholder="Create a strong password" required
+                style="height: 54px; border-radius: 14px; border-color: var(--gray-150); padding: 0 20px; font-size: 14px; font-weight: 500;" />
+            </div>
+
+            <!-- Vendor-only: Shop Name -->
+            <div id="vendorShopField" style="display: none; flex-direction: column; gap: 6px;">
+              <label
+                style="font-size: 11px; font-weight: 800; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1.2px; padding-left: 4px;">Shop
+                Name</label>
+              <input id="registerShopName" class="input" type="text" placeholder="Your shop name"
+                style="height: 54px; border-radius: 14px; border-color: var(--gray-150); padding: 0 20px; font-size: 14px; font-weight: 500;" />
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" id="registerSubmitBtn" class="btn btn-accent"
+              style="height: 56px; border-radius: 16px; font-size: 15px; font-weight: 800; width: 100%; margin-top: 8px; letter-spacing: 0.3px;">
+              Create User Account
+            </button>
+          </form>
+
+          <!-- Terms -->
+          <p style="text-align: center; font-size: 12px; color: var(--gray-400); margin-top: 20px; line-height: 1.6;">
+            By registering, you agree to our <a href="#"
+              style="color: var(--accent); font-weight: 600; text-decoration: none;">Terms of Service</a> and <a
+              href="#" style="color: var(--accent); font-weight: 600; text-decoration: none;">Privacy Policy</a>.
+          </p>
+        </div>
+
+        <!-- Bottom Links -->
+        <div style="text-align: center; margin-top: 32px;">
+          <p style="font-size: 14px; color: var(--gray-400);">Already have an account?</p>
+          <div style="display: flex; justify-content: center; gap: 20px; margin-top: 12px;">
+            <a href="#" data-page="login"
+              style="font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.8px; text-decoration: none;">Sign
+              In</a>
+            <span style="color: var(--gray-200);">|</span>
+            <a href="#" data-page="home"
+              style="font-size: 12px; font-weight: 800; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.8px; text-decoration: none;">←
+              Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================
+     PAGE 6: MOBILE WIREFRAME
+     ============================================================ -->
+  <div class="page page-mobile" id="page-mobile">
+    <div class="container" style="padding: 48px 24px;">
+      <div class="section-header" style="margin-bottom: 48px;">
+        <span class="text-overline">Mobile Wireframe</span>
+        <h2 class="text-h2">Responsive Mobile Layout</h2>
+        <p class="text-body">375×812 viewport with hamburger menu, stacked layout, horizontal scrolling, and bottom
+          navigation</p>
+      </div>
+      <div style="display: flex; gap: 48px; justify-content: center; flex-wrap: wrap;">
+        <!-- Mobile Screen 1: Home -->
+        <div>
+          <p class="text-caption" style="text-align:center; margin-bottom:16px; color:var(--text-secondary);">HOME
+            SCREEN</p>
+          <div class="mobile-frame">
+            <div class="mobile-notch"></div>
+            <div class="mobile-header">
+              <div class="logo">
+                <span style="display:inline-flex;align-items:center;gap:6px;">
+                  <span
+                    style="width:24px;height:24px;background:var(--gray-900);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;">M</span>
+                  MarketHub
+                </span>
+              </div>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3" />
+                </svg>
+                <div class="mobile-hamburger">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+            <div class="mobile-content">
+              <!-- Hero -->
+              <div class="mobile-hero">
+                <h2>Discover Digital <span style="color:var(--accent);">Shops</span></h2>
+                <p>The marketplace for digital creators to showcase and sell their work.</p>
+                <button class="btn btn-primary btn-sm" style="width:100%;">Explore Marketplace</button>
+              </div>
+              <!-- Categories scroll -->
+              <div class="mobile-section">
+                <div class="mobile-section-header">
+                  <h4>Categories</h4>
+                  <a href="#">See all</a>
+                </div>
+                <div class="mobile-category-scroll">
+                  <div class="mobile-category-chip">
+                    <div class="chip-icon">🎨</div><span>Design</span>
+                  </div>
+                  <div class="mobile-category-chip">
+                    <div class="chip-icon">💻</div><span>Dev</span>
+                  </div>
+                  <div class="mobile-category-chip">
+                    <div class="chip-icon">📍</div><span>Writing</span>
+                  </div>
+                  <div class="mobile-category-chip">
+                    <div class="chip-icon">📷</div><span>Photo</span>
+                  </div>
+                  <div class="mobile-category-chip">
+                    <div class="chip-icon">🎵</div><span>Audio</span>
+                  </div>
+                  <div class="mobile-category-chip">
+                    <div class="chip-icon">🎬</div><span>Video</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Trending Shops scroll -->
+              <div class="mobile-section">
+                <div class="mobile-section-header">
+                  <h4>Trending Shops</h4>
+                  <a href="#">See all</a>
+                </div>
+                <div class="mobile-scroll">
+                  <div class="mobile-card">
+                    <div class="mobile-card-img"></div>
+                    <div class="mobile-card-body">
+                      <h5>DesignCraft Studio</h5>
+                      <p>★★★★★ 4.9 · Design</p>
+                    </div>
+                  </div>
+                  <div class="mobile-card">
+                    <div class="mobile-card-img"></div>
+                    <div class="mobile-card-body">
+                      <h5>CodeForge Labs</h5>
+                      <p>★★★★☆ 4.6 · Dev</p>
+                    </div>
+                  </div>
+                  <div class="mobile-card">
+                    <div class="mobile-card-img"></div>
+                    <div class="mobile-card-body">
+                      <h5>Artisan Fonts</h5>
+                      <p>★★★★★ 5.0 · Type</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- How it works -->
+              <div class="mobile-section" style="background:var(--gray-50); padding:24px 16px; margin: 0 -0px;">
+                <h4 style="margin-bottom:16px; text-align:center;">How it Works</h4>
+                <div style="display:flex; flex-direction:column; gap:16px;">
+                  <div
+                    style="display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border-radius:10px;border:1px solid var(--border-light);">
+                    <div
+                      style="width:36px;height:36px;border-radius:50%;background:var(--gray-900);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;">
+                      1</div>
+                    <div><strong style="font-size:14px;">Create Shop</strong><br /><span
+                        style="font-size:12px;color:var(--text-tertiary);">Sign up & customize</span></div>
+                  </div>
+                  <div
+                    style="display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border-radius:10px;border:1px solid var(--border-light);">
+                    <div
+                      style="width:36px;height:36px;border-radius:50%;background:var(--gray-900);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;">
+                      2</div>
+                    <div><strong style="font-size:14px;">Add Products</strong><br /><span
+                        style="font-size:12px;color:var(--text-tertiary);">Upload & organize</span></div>
+                  </div>
+                  <div
+                    style="display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border-radius:10px;border:1px solid var(--border-light);">
+                    <div
+                      style="width:36px;height:36px;border-radius:50%;background:var(--gray-900);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;">
+                      3</div>
+                    <div><strong style="font-size:14px;">Start Selling</strong><br /><span
+                        style="font-size:12px;color:var(--text-tertiary);">Track & grow</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Bottom Nav -->
+            <div class="mobile-bottom-nav">
+              <div class="nav-tab active">
+                <div class="tab-icon">🏠</div>
+                <span>Home</span>
+              </div>
+              <div class="nav-tab">
+                <div class="tab-icon">🔍</div>
+                <span>Search</span>
+              </div>
+              <div class="nav-tab">
+                <div class="nav-tab-add">+</div>
+              </div>
+              <div class="nav-tab">
+                <div class="tab-icon">💬</div>
+                <span>Messages</span>
+              </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile Screen 2: Marketplace / Search -->
+        <div>
+          <p class="text-caption" style="text-align:center; margin-bottom:16px; color:var(--text-secondary);">SEARCH /
+            MARKETPLACE</p>
+          <div class="mobile-frame">
+            <div class="mobile-notch"></div>
+            <div class="mobile-header">
+              <div style="flex:1;">
+                <div
+                  style="display:flex; align-items:center; gap:8px; background:var(--gray-100); border-radius:20px; padding:8px 14px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                  </svg>
+                  <span style="font-size:14px; color:var(--gray-400);">Search shops...</span>
+                </div>
+              </div>
+              <div style="margin-left:12px; font-size:14px; color:var(--accent); font-weight:500;">Filter</div>
+            </div>
+            <div class="mobile-content">
+              <!-- Category chips scroll -->
+              <div style="padding:12px 16px;">
+                <div class="mobile-category-scroll">
+                  <span class="badge" style="white-space:nowrap;">All</span>
+                  <span class="badge badge-accent" style="white-space:nowrap;">Design</span>
+                  <span class="badge" style="white-space:nowrap;">Dev</span>
+                  <span class="badge" style="white-space:nowrap;">Writing</span>
+                  <span class="badge" style="white-space:nowrap;">Photo</span>
+                  <span class="badge" style="white-space:nowrap;">Audio</span>
+                </div>
+              </div>
+              <!-- Stacked shop list -->
+              <div style="padding:0 16px; display:flex; flex-direction:column; gap:12px;">
+                <div
+                  style="display:flex; gap:12px; padding:12px; border:1px solid var(--border-light); border-radius:12px;">
+                  <div
+                    style="width:72px; height:72px; background:var(--gray-150); border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--gray-400);">
+                    Image</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:15px; font-weight:600;">DesignCraft Studio</div>
+                    <div style="font-size:12px; color:var(--text-tertiary); margin:2px 0 6px;">★★★★★ 4.9 ·
+                      Design</div>
+                    <div
+                      style="font-size:12px; color:var(--text-secondary); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                      Premium UI kits and design systems for modern product teams.</div>
+                  </div>
+                </div>
+                <div
+                  style="display:flex; gap:12px; padding:12px; border:1px solid var(--border-light); border-radius:12px;">
+                  <div
+                    style="width:72px; height:72px; background:var(--gray-150); border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--gray-400);">
+                    Image</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:15px; font-weight:600;">CodeForge Labs</div>
+                    <div style="font-size:12px; color:var(--text-tertiary); margin:2px 0 6px;">★★★★☆ 4.6 ·
+                      Dev</div>
+                    <div
+                      style="font-size:12px; color:var(--text-secondary); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                      Full-stack templates and SaaS boilerplates built for speed.</div>
+                  </div>
+                </div>
+                <div
+                  style="display:flex; gap:12px; padding:12px; border:1px solid var(--border-light); border-radius:12px;">
+                  <div
+                    style="width:72px; height:72px; background:var(--gray-150); border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--gray-400);">
+                    Image</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:15px; font-weight:600;">Artisan Fonts Co.</div>
+                    <div style="font-size:12px; color:var(--text-tertiary); margin:2px 0 6px;">★★★★★ 5.0 ·
+                      Typography</div>
+                    <div
+                      style="font-size:12px; color:var(--text-secondary); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                      Handcrafted typefaces for branding and editorial design.</div>
+                  </div>
+                </div>
+                <div
+                  style="display:flex; gap:12px; padding:12px; border:1px solid var(--border-light); border-radius:12px;">
+                  <div
+                    style="width:72px; height:72px; background:var(--gray-150); border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--gray-400);">
+                    Image</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:15px; font-weight:600;">PixelMotion 3D</div>
+                    <div style="font-size:12px; color:var(--text-tertiary); margin:2px 0 6px;">★★★★☆ 4.5 · 3D
+                      Assets</div>
+                    <div
+                      style="font-size:12px; color:var(--text-secondary); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                      High-quality 3D models, textures, and motion graphics.</div>
+                  </div>
+                </div>
+                <div
+                  style="display:flex; gap:12px; padding:12px; border:1px solid var(--border-light); border-radius:12px;">
+                  <div
+                    style="width:72px; height:72px; background:var(--gray-150); border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--gray-400);">
+                    Image</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:15px; font-weight:600;">SoundWave Audio</div>
+                    <div style="font-size:12px; color:var(--text-tertiary); margin:2px 0 6px;">★★★★★ 4.8 ·
+                      Audio</div>
+                    <div
+                      style="font-size:12px; color:var(--text-secondary); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                      Royalty-free music and sound effects for content creators.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Bottom Nav -->
+            <div class="mobile-bottom-nav">
+              <div class="nav-tab">
+                <div class="tab-icon">🏠</div>
+                <span>Home</span>
+              </div>
+              <div class="nav-tab active">
+                <div class="tab-icon">🔍</div>
+                <span>Search</span>
+              </div>
+              <div class="nav-tab">
+                <div class="nav-tab-add">+</div>
+              </div>
+              <div class="nav-tab">
+                <div class="tab-icon">💬</div>
+                <span>Messages</span>
+              </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile Screen 3: Profile -->
+        <div>
+          <p class="text-caption" style="text-align:center; margin-bottom:16px; color:var(--text-secondary);">PROFILE /
+            ADD SHOP</p>
+          <div class="mobile-frame">
+            <div class="mobile-notch"></div>
+            <div class="mobile-header">
+              <div class="logo" style="font-size:16px; font-weight:600;">My Profile</div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="19" cy="12" r="1" />
+                <circle cx="5" cy="12" r="1" />
+              </svg>
+            </div>
+            <div class="mobile-content">
+              <!-- Profile header -->
+              <div style="text-align:center; padding:24px 16px 32px;">
+                <div
+                  style="width:72px;height:72px;border-radius:50%;background:var(--gray-200);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:var(--gray-600);">
+                  SK</div>
+                <div style="font-size:18px;font-weight:700;">Sarah Kim</div>
+                <div style="font-size:13px;color:var(--text-tertiary);margin-top:2px;">Vendor · Pro Plan</div>
+                <div style="display:flex;gap:24px;justify-content:center;margin-top:20px;">
+                  <div style="text-align:center;">
+                    <div style="font-size:18px;font-weight:700;">47</div>
+                    <div style="font-size:11px;color:var(--text-tertiary);">Products</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <div style="font-size:18px;font-weight:700;">8.2k</div>
+                    <div style="font-size:11px;color:var(--text-tertiary);">Customers</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <div style="font-size:18px;font-weight:700;">4.9</div>
+                    <div style="font-size:11px;color:var(--text-tertiary);">Rating</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Quick stats -->
+              <div style="padding:0 16px; display:flex; gap:8px; margin-bottom:20px;">
+                <div style="flex:1;padding:16px;background:var(--gray-50);border-radius:12px;text-align:center;">
+                  <div style="font-size:16px;font-weight:700;">$12.4k</div>
+                  <div style="font-size:11px;color:var(--text-tertiary);">Revenue</div>
+                </div>
+                <div style="flex:1;padding:16px;background:var(--gray-50);border-radius:12px;text-align:center;">
+                  <div style="font-size:16px;font-weight:700;">342</div>
+                  <div style="font-size:11px;color:var(--text-tertiary);">Orders</div>
+                </div>
+              </div>
+              <!-- Menu items -->
+              <div style="padding:0 16px; display:flex; flex-direction:column;">
+                <div
+                  style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border-light);">
+                  <span style="font-size:18px;">🏪</span>
+                  <span style="font-size:15px;flex:1;">My Shop</span>
+                  <span style="color:var(--text-tertiary);">→</span>
+                </div>
+                <div
+                  style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border-light);">
+                  <span style="font-size:18px;">📦</span>
+                  <span style="font-size:15px;flex:1;">Products</span>
+                  <span class="badge" style="font-size:11px;">47</span>
+                  <span style="color:var(--text-tertiary);">→</span>
+                </div>
+                <div
+                  style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border-light);">
+                  <span style="font-size:18px;">🛒</span>
+                  <span style="font-size:15px;flex:1;">Orders</span>
+                  <span class="badge badge-accent" style="font-size:11px;">12</span>
+                  <span style="color:var(--text-tertiary);">→</span>
+                </div>
+                <div
+                  style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--bord
