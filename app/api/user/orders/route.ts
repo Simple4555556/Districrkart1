@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/user/orders — list the authenticated user's own orders
 export async function GET(req: NextRequest) {
   const { session, error } = await requireRole("USER");

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 /** POST /api/cart — add or increment a product */
 export async function POST(req: Request) {
   const { session, error } = await requireSession();

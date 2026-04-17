@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 /* GET /api/admin/shops — list all shops with vendor info */
 export async function GET(req: Request) {
   const { error } = await requireRole("ADMIN");

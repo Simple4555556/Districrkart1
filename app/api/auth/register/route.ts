@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import { validatePassword, isValidEmail, sanitizeInput } from "@/lib/password";
 
+export const dynamic = "force-dynamic";
+
 // Allow 5 vendor registrations per IP per 15 minutes
 const RATE_LIMIT      = 5;
 const RATE_WINDOW_MS  = 15 * 60 * 1_000;

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/vendor/categories
 // Returns: vendor's SubCategories + all available MainCategories (for the form dropdown)
 export async function GET() {

@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 // POST /api/coupons/apply
 // Body: { code: string, cartTotal: number }
 // Returns: { discount, finalAmount, coupon }

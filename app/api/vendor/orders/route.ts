@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 const VALID_TRANSITIONS: Record<string, string[]> = {
   PLACED:           ["PROCESSING", "CANCELLED"],
   PROCESSING:       ["SHIPPED", "CANCELLED"],

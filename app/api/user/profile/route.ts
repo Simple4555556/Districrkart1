@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/user/profile — get own profile (any authenticated role)
 export async function GET() {
   const { session, error } = await requireSession();
