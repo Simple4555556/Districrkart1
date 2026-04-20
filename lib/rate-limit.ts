@@ -15,7 +15,7 @@ const store = new Map<string, RateLimitRecord>();
 if (typeof setInterval !== "undefined") {
   setInterval(() => {
     const now = Date.now();
-    for (const [key, rec] of store.entries()) {
+    for (const [key, rec] of Array.from(store.entries())) {
       if (now > rec.resetAt) store.delete(key);
     }
   }, 10 * 60 * 1_000);
