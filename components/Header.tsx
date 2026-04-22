@@ -275,7 +275,7 @@ function HeaderInner() {
             {/* Desktop-only links */}
             <div className="desktop-actions" style={styles.actions}>
               {session ? (
-                <Link href={sessionUser?.role === "VENDOR" ? "/vendor" : "/user"} className="action-btn" title="My Account" style={{ padding: "4px" }}>
+                <Link href="/dashboard" className="action-btn" title="My Account" style={{ padding: "4px" }}>
                   {sessionUser?.image ? (
                     <img src={sessionUser.image} alt={sessionUser.name || "User"} style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", border: "2px solid #4CAF50" }} />
                   ) : (
@@ -368,7 +368,7 @@ function HeaderInner() {
           <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 12 }}>
             {session ? (
               <Link
-                href={sessionUser?.role === "VENDOR" ? "/vendor" : "/user"}
+                href="/dashboard"
                 className="action-btn"
                 onClick={() => setIsMenuOpen(false)}
                 style={{ background: isDark ? '#1E293B' : '#f3f4f6', justifyContent: 'center', padding: '14px 20px', borderRadius: 12 }}

@@ -13,6 +13,8 @@ interface CartProduct {
   id: string;
   name: string;
   price: number;
+  discount?: number;
+  sellingPrice?: number;
   imageUrl?: string;
   shop: { id: string; name: string; logoUrl?: string };
   subCategory: { id: string; name: string };
@@ -71,7 +73,8 @@ export default function CartPage() {
     setUpdatingId(null);
   };
 
-  const subtotal = items.reduce((acc, i) => acc + i.product.price * i.quantity, 0);
+  const effectivePrice = (p: CartProduct) => (p.discount ?? 0) > 0 ? (p.sellingPrice ?? p.price) : p.price;
+  const subtotal = items.reduce((acc, i) => acc + effectivePrice(i.product) * i.quantity, 0);
   const deliveryFee = items.length > 0 ? 40 : 0;
   const total = subtotal + deliveryFee;
 
@@ -181,9 +184,19 @@ export default function CartPage() {
                     </h3>
                     <p className="text-xs text-gray-400 mt-0.5">{item.product.shop.name}</p>
                     <p className="text-indigo-600 font-black text-base sm:text-lg mt-1">
-                      ₹{(item.product.price * item.quantity).toLocaleString("en-IN")}
+                      ₹{(effectivePrice(item.product) * item.quantity).toLocaleString("en-IN")}
                     </p>
-                    <p className="text-[11px] text-gray-400">₹{item.product.price.toLocaleString("en-IN")} each</p>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <p className="text-[11px] text-gray-400">
+                        ₹{effectivePrice(item.product).toLocaleString("en-IN")} each
+                      </p>
+                      {(item.product.discount ?? 0) > 0 && (
+                        <>
+                          <span className="text-[11px] text-gray-300 line-through">₹{item.product.price.toLocaleString("en-IN")}</span>
+                          <span className="text-[10px] font-bold text-red-500 bg-red-50 px-1 rounded">{item.product.discount}% OFF</span>
+                        </>
+                      )}
+                    </div>
                   </div>
 
                   {/* Quantity + Remove */}
